@@ -11,6 +11,7 @@ var isWin = false;
 var timer;
 var timerCount = 75;
 var storedWins = 0;
+var isGamePlaying = false;
 // The init function is called when the page loads 
 function init() {
   getWins();
@@ -18,7 +19,8 @@ function init() {
 }
 // The startGame function is called when the start button is clicked
 function startGame() {
-  if (timerCount == 75) {
+  if (!isGamePlaying) {
+    isGamePlaying = true;
   isWin = false;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
@@ -37,6 +39,7 @@ function wrongAnswer() {
 // The loseGame function is called when timer reaches 0
 function loseGame() {
   startButton.disabled = true;
+  isGamePlaying = false;
   alert("Game Over, you scored " + timerCount + " points!");
 }
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
