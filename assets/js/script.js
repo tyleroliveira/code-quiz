@@ -3,63 +3,42 @@ var win = document.querySelector(".win");
 var lose = document.querySelector(".lose");
 var timerElement = document.querySelector(".timer-count");
 var startButton = document.querySelector(".start-button");
-
 var chosenWord = "";
 var numBlanks = 0;
 var winCounter = 0;
 var loseCounter = 0;
 var isWin = false;
 var timer;
-var timerCount;
+var timerCount = 75;
 var storedWins = 0;
-
 // The init function is called when the page loads 
 function init() {
   getWins();
-  //getlosses();
-}
 
+}
 // The startGame function is called when the start button is clicked
 function startGame() {
+  if (timerCount == 75) {
   isWin = false;
-  timerCount = 75;
   // Prevents start button from being clicked when round is in progress
   startButton.disabled = true;
-  //renderBlanks()
   startTimer()
+  }
 }
-
 // The winGame function is called when the win condition is met
 function winGame() {
-  //wordBlank.textContent = "YOU WON!!!🏆 ";
-  //winCounter++
-  startButton.disabled = false;
+  startButton.disabled = true;
   setWins()
 }
-
-// The loseGame function is called when timer reaches 0
 function wrongAnswer() {
-  //wordBlank.textContent = "GAME OVER";
-  //loseCounter++
-  //console.log(timerCount);
   timerCount = timerCount - 10;
-  //console.log(timerCount);
-  startButton.disabled = false;
-  //setLosses()
+  startButton.disabled = true;
 }
-
 // The loseGame function is called when timer reaches 0
 function loseGame() {
-  //wordBlank.textContent = "GAME OVER";
-  //loseCounter++
-  //console.log(timerCount);
-  //timerCount = timerCount - 3;
-  //console.log(timerCount);
-  startButton.disabled = false;
+  startButton.disabled = true;
   alert("Game Over, you scored " + timerCount + " points!");
-  //setLosses()
 }
-
 // The setTimer function starts and stops the timer and triggers winGame() and loseGame()
 function startTimer() {
   // Sets timer
@@ -84,19 +63,14 @@ function startTimer() {
     }
   }, 1000);
 }
-
 // Updates win count on screen and sets win count to client storage
 function setWins() {
+ if (timerCount >= localStorage.getItem("winCount")) { 
   win.textContent = timerCount;
   localStorage.setItem("winCount", timerCount);
+  startButton.disabled = true;
 }
-
-// Updates lose count on screen and sets lose count to client storage
-//function setLosses() {
-//   lose.textContent = loseCounter;
-//   localStorage.setItem("loseCount", loseCounter);
-// }
-
+}
 // These functions are used by init
 function getWins() {
   // Get stored value from client storage, if it exists
@@ -105,91 +79,34 @@ function getWins() {
   if (storedWins === null) {
     winCounter = 0;
   } else {
-    // If a value is retrieved from client storage set the winCounter to that value
+    // If a value is retrieved from client storage set the winCounter to that value 
     winCounter = storedWins;
   }
   //Render win count to page
   win.textContent = winCounter;
+  startButton.disabled = true;
 }
-
-// function getlosses() {
-//   var storedLosses = localStorage.getItem("loseCount");
-//   if (storedLosses === null) {
-//     loseCounter = 0;
-//   } else {
-//     loseCounter = storedLosses;
-//   }
-//   lose.textContent = loseCounter;
-// }
-
 function checkWin() {
-  // If the word equals the blankLetters array when converted to string, set isWin to true
-  //if (chosenWord === blanksLetters.join("")) {
     // This value is used in the timer function to test if win condition is met
     isWin = true;
+    startButton.disabled = true;
   }
-//}
-
-// Tests if guessed letter is in word and renders it to the screen.
-function checkLetters(letter) {
-  var letterInWord = false;
-  for (var i = 0; i < numBlanks; i++) {
-    if (chosenWord[i] === letter) {
-      letterInWord = true;
-    }
-  }
-  if (letterInWord) {
-    for (var j = 0; j < numBlanks; j++) {
-      if (chosenWord[j] === letter) {
-        blanksLetters[j] = letter;
-      }
-    }
-    wordBlank.textContent = blanksLetters.join(" ");
-  }
-}
-
-// Attach event listener to document to listen for key event
-document.addEventListener("keydown", function(event) {
-  // If the count is zero, exit function
-  if (timerCount === 0) {
-    return;
-  }
-  // Convert all keys to lower case
-  var key = event.key.toLowerCase();
-  var alphabetNumericCharacters = "abcdefghijklmnopqrstuvwxyz0123456789 ".split("");
-  // Test if key pushed is letter
-  if (alphabetNumericCharacters.includes(key)) {
-    var letterGuessed = event.key;
-    checkLetters(letterGuessed)
-    checkWin();
-  }
-});
-
 // Attach event listener to start button to call startGame function on click
 startButton.addEventListener("click", startGame);
-
 // Calls init() so that it fires when page opened
+startButton.disabled = true;
 init();
-
 // Bonus: Add reset button
 var resetButton = document.querySelector(".reset-button");
-
 function resetGame() {
   // Resets win and loss counts
   winCounter = 0;
   loseCounter = 0;
   localStorage.setItem("winCount", "0");
   window.location.reload();
-  //console.log("works")
-  // Renders win and loss counts and sets them into client storage
-  //setWins()
-  //setLosses()
 }
 // Attaches event listener to button
 resetButton.addEventListener("click", resetGame);
-
-
-
 
 // start of other code
 var questionDiv = document.querySelector("#question");
@@ -200,24 +117,29 @@ var questions = [
     answer: "Start Quiz",
   },
   {
-    prompt: "What is the color of the sky?",
-    options: ["Red", "Blue", "Green", "Yellow"],
-    answer: "Blue",
+    prompt: "Commonly used data types DO NOT include:",
+    options: ["Strings", "Booleans", "Alerts", "Numbers"],
+    answer: "Alerts",
   },
   {
-    prompt: "What is the color of the sky?",
-    options: ["Red", "Blue", "Green", "Yellow"],
-    answer: "Blue",
+    prompt: "The condition in an if / else statement is enclosed within ______.",
+    options: ["Quotes", "Curly brackets", "Parentheses", "Square brackets"],
+    answer: "Quotes",
   }, 
   {
-    prompt: "What is the color of the sky?",
-    options: ["Red", "Blue", "Green", "Yellow"],
-    answer: "Blue",
+    prompt: "Arrays in JavaScript con be used to store __________.",
+    options: ["Numbers and strings", "Other arrays", "Booleans", "All of the above"],
+    answer: "All of the above",
   },
   {
-    prompt: "Which shape is round?",
-    options: ["Square", "Triangle", "Trapezoid", "Circle"],
-    answer: "Circle",
+    prompt: "Strings values must be enclosed within _________ when being assigned to variables.",
+    options: ["Commas", "Curly brackets", "Quotes", "Parentheses"],
+    answer: "Quotes",
+  },
+  {
+    prompt: "A very useful tool used during development and debugging for printing content to the debugger is:",
+    options: ["JavaScript", "Terminal/bash", "For loops", "Console.log"],
+    answer: "Console.log",
   },
 ];
 
@@ -233,6 +155,7 @@ function handleOptionClick(event) {
     }
     };
     questionIdx += 1;
+    startButton.disabled = true;
     showQuestion();
   }
 
@@ -276,15 +199,13 @@ function showQuestion() {
     // check if option is the answer
     if (optionText === question.answer) {
       btn.dataset.answer = 1;
-      //winGame();
-      //console.log(winCounter);
     } else {
       btn.dataset.answers = 0;
-      //wrongAnswer();
     }
 
     answersDiv.appendChild(btn);
   }
+  startButton.disabled = true;
 }
 
 // init page

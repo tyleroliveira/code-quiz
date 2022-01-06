@@ -30,10 +30,11 @@ button {
   border-radius: 8px;
   color: #13293d;
   cursor: pointer;
-  font-size: 2em;
+  font-size: 1em;
   letter-spacing: 0.21px;
   line-height: 16px;
   max-width: 300px;
+  max-height: 300px;
   padding: 20px 52px;
   text-align: center;
   transition-duration: 0.15s;
