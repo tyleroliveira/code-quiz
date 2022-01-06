@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSS Box Styling</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <style>
+        html,
+        body {
+          min-width: 100vw;
+          min-height: 100vh;
+        }
+        body {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .answers {
+          display: flex;
+          flex-direction: column;
+        }
+        .answer-btn {
+          margin-top: 10px;
+        }
+      </style>
+      <div class= "large-font">Coding Quiz Challenge</div>
+      <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+      <button class="start-button">Start Timer</button>
+    </header>
+
+    <main>
+      <section>
+        <div class="card word-guess">
+          <div id="question" class="question"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="card results">
+          <div class = "win-loss-container">
+          <div>
+          <h2>High Score: <span class="win">0 </span> </h2>
+          <h2><span class="lose"></span></h2>
+        </div>
+          <button class="reset-button">Clear Scores</button>
+      </div>
+          <div class= "card timer">
+            <div class = "timer-text">
+            <div class="large-font timer-count">10</div>
+            <h3>seconds remaining</h3>
+          </div>
+        
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
